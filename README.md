@@ -9,11 +9,11 @@ The library permits using most matrix operations. The ideia is to feed the code 
 1. Addition and subtraction  
     - `matrixObj1 += matrixObj2;`  
     - `matrixObj1 + matrixObj2;`  
-    - `matrixObj ++;`  
+    - `matrixObj++;`  
 
     - `matrixObj1 -= matrixObj2;`  
     - `matrixObj1 - matrixObj2;`  
-    - `matrixObj --;`  
+    - `matrixObj--;`  
 
 2. Multiplication by another matrix or value  
     - `matrixObj1 * matrixObj2;`  
