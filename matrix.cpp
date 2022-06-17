@@ -10,13 +10,12 @@ Matrix::Matrix(){
     this->values.resize(1, 0);    
 }
 
-Matrix::Matrix(size_t numRows, size_t numCols, std::string fill){ // DONE
+Matrix::Matrix(size_t numRows, size_t numCols, std::string fill){
     this->rows = numRows;
     this->cols = numCols;
 
     if(fill == "zeros"){
         this->values.resize(numCols*numRows, 0);
-        //std::fill(this->values.begin(), this->values.end(), 0);
     }else if(fill == "ones"){
         this->values.resize(numCols*numRows, 1);
     }else if(fill == "random"){
@@ -29,13 +28,13 @@ Matrix::Matrix(size_t numRows, size_t numCols, std::string fill){ // DONE
     }
 }
 
-Matrix::Matrix(std::vector<float> vec, size_t numRows, size_t numCols){ // DONE
+Matrix::Matrix(std::vector<float> vec, size_t numRows, size_t numCols){
     this->rows = numRows;
     this->cols = numCols;
     this->values.assign(vec.begin(), vec.begin() + vec.size());
 }
 
-Matrix::~Matrix(){} // DONE
+Matrix::~Matrix(){}
 
 void Matrix::print(){
     std::cout << std::setprecision(5);
@@ -51,11 +50,11 @@ void Matrix::print(){
     std::cout << "\n";
 }
 
-void Matrix::set(float value, size_t row, size_t col){  // DONE
+void Matrix::set(float value, size_t row, size_t col){
     this->values.at(col + this->cols*row) = value;
 }
 
-void Matrix::set(std::vector<float> vec, size_t idx, bool row){    // DONE
+void Matrix::set(std::vector<float> vec, size_t idx, bool row){
     if(row){
         for(size_t j = 0; j < this->cols; j++){
             this->set(vec.at(j), idx, j);
@@ -87,11 +86,11 @@ bool Matrix::equalTo(Matrix matrix){
     }
 }
 
-size_t Matrix::numRows(){   // DONE
+size_t Matrix::numRows(){
     return this->rows;
 }
 
-size_t Matrix::numCols(){   // DONE
+size_t Matrix::numCols(){
     return this->cols;
 }
 
@@ -150,7 +149,7 @@ Matrix Matrix::subtract(Matrix matrix){
     return (*this);
 }
 
-Matrix Matrix::multiply(float value){ // DONE
+Matrix Matrix::multiply(float value){
     for(size_t i = 0; i < this->rows; i++){
         for(size_t j = 0; j < this->cols; j++){
             this->set((*this)(i, j)*value, i, j);
@@ -159,7 +158,7 @@ Matrix Matrix::multiply(float value){ // DONE
     return (*this);
 }
 
-Matrix Matrix::divide(float value){ // DONE
+Matrix Matrix::divide(float value){
     for(size_t i = 0; i < this->rows; i++){
         for(size_t j = 0; j < this->cols; j++){
             this->set((*this)(i, j)/value, i, j);
@@ -168,7 +167,7 @@ Matrix Matrix::divide(float value){ // DONE
     return (*this);
 }
 
-float Matrix::dotProduct(Matrix matrix){    // DONE
+float Matrix::dotProduct(Matrix matrix){
     if(this->rows != matrix.rows || this->cols != matrix.cols)
         throw std::invalid_argument("Matrices must have the same format");
 
@@ -182,7 +181,7 @@ float Matrix::dotProduct(Matrix matrix){    // DONE
     return dotProd;
 }
 
-float Matrix::sum(){ // TODO: sum as a matrix dot product with itself
+float Matrix::sum(){
     float sum = 0;
     for(size_t i = 0; i < rows; i++){
         for(size_t j = 0; j < cols; j++){
@@ -192,7 +191,7 @@ float Matrix::sum(){ // TODO: sum as a matrix dot product with itself
     return sum;
 }
 
-Matrix Matrix::transpose(){ // DONE
+Matrix Matrix::transpose(){
     Matrix result(this->cols, this->rows, "zeros");
 
     for(size_t i = 0; i < this->rows; i++){
@@ -249,9 +248,9 @@ Matrix Matrix::append(Matrix toAppend, bool row){
 }
 
 
-// REPENSAR SE PRECISA DESSES MÉTODOS ESTÁTICOS VISTO QUE TEM OS OPERADORES -> acho que sim
+// Static operators
 
-Matrix Matrix::multiply(Matrix leftMatrix, Matrix rightMatrix){ // DONE
+Matrix Matrix::multiply(Matrix leftMatrix, Matrix rightMatrix){
     
     if(leftMatrix.cols != rightMatrix.rows)
         throw std::invalid_argument("First matrix column size must match second matrix row size");
@@ -274,7 +273,7 @@ Matrix Matrix::multiply(Matrix matrix, float value){
     return result;
 }
 
-float Matrix::dotProduct(Matrix matrix1, Matrix matrix2){   // DONE
+float Matrix::dotProduct(Matrix matrix1, Matrix matrix2){
     if(matrix1.rows != matrix2.rows || matrix1.cols != matrix2.cols)
         throw std::invalid_argument("Matrices must have the same format");
 
@@ -283,17 +282,18 @@ float Matrix::dotProduct(Matrix matrix1, Matrix matrix2){   // DONE
 }
 
 
-//Matrix Matrix::crossProduct(Matrix matrix){}
-//Matrix Matrix::crossProduct(Matrix matrix1, Matrix matrix2){}
+// TODO: develop the generalized cross product between matrixs
+// Matrix Matrix::crossProduct(Matrix matrix){}
+// Matrix Matrix::crossProduct(Matrix matrix1, Matrix matrix2){}
 
 
 // Overloaded operators
 
-float Matrix::operator()(size_t row, size_t col){   // REPENSAR SE VALE A PENA FAZER UM MÉTODO get()
+float Matrix::operator()(size_t row, size_t col){
     return this->values.at(col + this->cols*row);
 }
 
-Matrix Matrix::operator()(size_t idx, bool row){   // REPENSAR SE VALE A PENA FAZER UM MÉTODO get()
+Matrix Matrix::operator()(size_t idx, bool row){
     
     if(row){
         Matrix result(1, this->cols, "zeros");
@@ -329,6 +329,6 @@ void Matrix::operator+=(Matrix matrix){this->add(matrix);}
 void Matrix::operator+=(float value){this->add(value);}
 void Matrix::operator-=(Matrix matrix){this->subtract(matrix);}
 void Matrix::operator-=(float value){this->subtract(value);}
-void Matrix::operator*=(Matrix matrix){(*this) = multiply((*this), matrix);}    // TODO
+void Matrix::operator*=(Matrix matrix){(*this) = multiply((*this), matrix);}
 void Matrix::operator*=(float value){this->multiply(value);}
 void Matrix::operator/=(float value){this->divide(value);}

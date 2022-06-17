@@ -50,6 +50,7 @@ class Matrix{
         Matrix insert(Matrix toAppend, size_t idx, bool row=true);
         Matrix append(Matrix toAppend, bool row=true);
 
+        // Static operators
         static Matrix multiply(Matrix matrix1, Matrix matrix2);
         static Matrix multiply(Matrix matrix, float value);
         static float dotProduct(Matrix matrix1, Matrix matrix2);
