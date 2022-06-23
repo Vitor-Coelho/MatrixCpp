@@ -9,6 +9,16 @@
 #include <string>
 #include <time.h>
 
+// TODO:
+// • retirar os métodos static
+// • colocar mais parâmetros no construtor para alterar a forma do random (média, desvio padrão, uniforme vs normal)
+// • colocar o operador () para pegar valores e [] para pegar submatrizes -> será importante para conv NN
+//   ex.: A[2, 3, 0, 2] pegaria as linhas 2 e 3 com as colunas 0 a 2 -> Matriz 2x3
+// • modificar os métodos para não alterar in-place (pois basta utilizar o operador =)
+//   ex.: A = A*B ou A = A.multiply(B)
+// • adicionar o template <typename T> para poder criar as matrizes de float, double, int, etc
+// • organizar os repositórios para ficar apenas os arquivos importantes (colocar .gitignore e >> git rm)
+
 
 class Matrix{
     private:
@@ -57,7 +67,6 @@ class Matrix{
         static float dotProduct(Matrix matrix1, Matrix matrix2);
 
         //Matrix crossProduct(Matrix matrix);   //TODO
-        //static Matrix crossProduct(Matrix matrix1, Matrix matrix2);   //TODO
 
         // Overloaded operators
         float operator()(size_t row, size_t col);
