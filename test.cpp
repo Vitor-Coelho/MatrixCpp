@@ -49,12 +49,16 @@ int main(){
     cout << "\nElement access\n";
     cout << "Matrix(1,2) = " << matrix((size_t) 1, (size_t) 2);
 
-    cout << "\nRow access\n";
+    cout << "\n\nRow access\n";
     matrixResult = matrix(0, ROW);
     matrixResult.print();
 
     cout << "Column access\n";
     matrixResult = matrix(0, COLUMN);
+    matrixResult.print();
+
+    cout << "Matrix access\n";
+    matrixResult = matrix(0, 1, 0, 1);
     matrixResult.print();
 
     cout << "\n*** Testing equality ***\n";

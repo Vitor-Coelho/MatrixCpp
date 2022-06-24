@@ -9,12 +9,9 @@
 #include <string>
 #include <time.h>
 
+
 #define ROW true
 #define COLUMN false
-
-// TODO:
-// • colocar o operador () para pegar valores e [] para pegar submatrizes -> será importante para conv NN
-//   ex.: A[2, 3, 0, 2] pegaria as linhas 2 e 3 com as colunas 0 a 2 -> Matriz 2x3
 
 
 
@@ -67,6 +64,7 @@ template <typename T> class Matrix{
         // Overloaded operators
         T operator()(size_t row, size_t col);
         Matrix operator()(size_t idx, bool row=true);
+        Matrix operator()(size_t startRow, size_t endRow, size_t startCol, size_t endCol);
 
         void operator=(Matrix matrix);
         bool operator==(Matrix matrix);
@@ -482,6 +480,19 @@ Matrix<T> Matrix<T>::operator()(size_t idx, bool row){
         }
         return result;
     }
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::operator()(size_t startRow, size_t endRow, size_t startCol, size_t endCol){
+    Matrix result(endRow - startRow + 1, endCol - startCol + 1);
+
+    for(size_t i = startRow; i < endRow + 1; i++){
+        for(size_t j = startCol; j < endCol + 1; j++){
+            result.set((*this)(i,j), i - startRow, j - startCol);
+        }
+    }
+    
+    return result;
 }
 
 template <typename T>
