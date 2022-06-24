@@ -13,7 +13,6 @@
 #define COLUMN false
 
 // TODO:
-// • colocar mais parâmetros no construtor para alterar a forma do random (média, desvio padrão, uniforme vs normal)
 // • colocar o operador () para pegar valores e [] para pegar submatrizes -> será importante para conv NN
 //   ex.: A[2, 3, 0, 2] pegaria as linhas 2 e 3 com as colunas 0 a 2 -> Matriz 2x3
 
@@ -94,7 +93,7 @@ template <typename T> class Matrix{
 
 
 
-/* Random utilities */
+/* Random number generator utility */
 std::mt19937 mt(time(NULL));
 
 
