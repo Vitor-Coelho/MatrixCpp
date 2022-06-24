@@ -9,8 +9,10 @@
 #include <string>
 #include <time.h>
 
+#define ROW true
+#define COLUMN false
+
 // TODO:
-// • retirar os métodos static
 // • colocar mais parâmetros no construtor para alterar a forma do random (média, desvio padrão, uniforme vs normal)
 // • colocar o operador () para pegar valores e [] para pegar submatrizes -> será importante para conv NN
 //   ex.: A[2, 3, 0, 2] pegaria as linhas 2 e 3 com as colunas 0 a 2 -> Matriz 2x3
@@ -51,6 +53,7 @@ class Matrix{
         Matrix subtract(float value);
         Matrix subtract(Matrix matrix);
         Matrix multiply(float value);
+        Matrix multiply(Matrix matrix);
         Matrix divide(float value);
         float dotProduct(Matrix matrix);
         float sum();
@@ -60,11 +63,6 @@ class Matrix{
         Matrix insert(Matrix toAppend, size_t idx, bool row=true);
         Matrix append(Matrix toAppend, bool row=true);
         Matrix del(size_t startIdx, size_t endIdx, bool row=true);
-
-        // Static operators
-        static Matrix multiply(Matrix matrix1, Matrix matrix2);
-        static Matrix multiply(Matrix matrix, float value);
-        static float dotProduct(Matrix matrix1, Matrix matrix2);
 
         //Matrix crossProduct(Matrix matrix);   //TODO
 
@@ -83,8 +81,8 @@ class Matrix{
         Matrix operator*(float value);
         Matrix operator/(float value);
 
-        void operator++();
-        void operator--();
+        void operator++(int);
+        void operator--(int);
 
         void operator+=(Matrix matrix);
         void operator+=(float value);

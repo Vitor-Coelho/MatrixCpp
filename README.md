@@ -29,19 +29,19 @@ The library permits using most matrix operations. The ideia is to feed the code 
 4. Transposing  
     - `matrixObj.transpose();`  
 
-5. Dot product  
+5. Dot product and sum
     - `matrixObj1.dotProduct(matrixObj2);`  
-    - `dotProduct(matrixObj1, matrixObj2);`  
+    - `matrixObj.sum();` | Returns the sum of all elements
 
 6. Applying functions  
     - `matrixObj.applyFunction(float function(float));` | It applies the function to the matrix element-wise.  
 
 7. Inserting and appending  
     - `matrixObj1.insert(Matrix matrixObj2, size_t idx, bool row=true);` | Inserts another matrix row-wise or column-wise in idx.  
-    - `append(Matrix toAppend, bool row);` | Appends another matrix row-wise or column-wise.  
+    - `matrixObj1.append(Matrix matrixObj2, bool row);` | Appends another matrix row-wise or column-wise.  
 
 8. Delete  
-    - `del(size_t startIdx, size_t endIdx, bool row=true);` | Deletes rows or columns in indexes [startIdx, endIdx] (inclusive).  
+    - `matrixObj.del(size_t startIdx, size_t endIdx, bool row=true);` | Deletes rows or columns in indexes [startIdx, endIdx] (inclusive).  
 
 9. Definition and equality comparison  
     - `matrixObj1 = matrixObj2;`  
