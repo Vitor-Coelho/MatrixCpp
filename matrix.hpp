@@ -23,7 +23,7 @@ template <typename T> class Matrix{
 
     public:
         Matrix();
-        Matrix(size_t numRows, size_t numCols, const char * fill="zeros");
+        Matrix(size_t numRows, size_t numCols, std::string fill="zeros");
         template<typename dist_t> Matrix(size_t numRows, size_t numCols, dist_t dist);
         Matrix(std::vector<T> vec, size_t numRows, size_t numCols);
         ~Matrix();
@@ -92,7 +92,7 @@ template <typename T> class Matrix{
 
 
 /* Random number generator utility */
-std::mt19937 mt(time(NULL));
+inline std::mt19937& mt(){static std::mt19937 mt_gen(time(NULL)); return mt_gen;};
 
 
 /* Constructors and destructor */
@@ -104,14 +104,16 @@ Matrix<T>::Matrix(){
 }
 
 template <typename T>
-Matrix<T>::Matrix(size_t numRows, size_t numCols, const char * fill){
+Matrix<T>::Matrix(size_t numRows, size_t numCols, std::string fill){
     this->rows = numRows;
     this->cols = numCols;
 
-    if(fill == (const char *) "zeros"){
+    if(fill == "zeros"){
         this->values.resize(numCols*numRows, 0);
-    }else if(fill == (const char *) "ones"){
+    }else if(fill == "ones"){
         this->values.resize(numCols*numRows, 1);
+    }else{
+        throw std::invalid_argument("Invalid fill argument.");
     }
 }
 
@@ -124,7 +126,7 @@ Matrix<T>::Matrix(size_t numRows, size_t numCols, dist_t dist){
     this->values.resize(numCols*numRows, 0);
     for(size_t i = 0; i < this->rows; i++){
         for(size_t j = 0; j < this->cols; j++){
-            this->set(dist(mt), i, j);
+            this->set(dist(mt()), i, j);
         }
     }
 }
@@ -133,7 +135,7 @@ template <typename T>
 Matrix<T>::Matrix(std::vector<T> vec, size_t numRows, size_t numCols){
     this->rows = numRows;
     this->cols = numCols;
-    this->values.assign(vec.begin(), vec.begin() + vec.size());
+    this->values.assign(vec.begin(), vec.end());
 }
 
 template <typename T>
@@ -261,7 +263,7 @@ Matrix<T> Matrix<T>::add(Matrix matrix){
 
 template <typename T>
 Matrix<T> Matrix<T>::subtract(T value){
-    Matrix result(this->rows, this->cols, "zeros");
+    Matrix result(this->rows, this->cols);
 
     for(size_t i = 0; i < this->rows; i++){
         for(size_t j = 0; j < this->cols; j++){
@@ -276,7 +278,7 @@ Matrix<T> Matrix<T>::subtract(Matrix matrix){
     if(this->rows != matrix.rows || this->cols != matrix.cols)
         throw std::invalid_argument("Matrices must have the same format");
 
-    Matrix result(this->rows, this->cols, "zeros");
+    Matrix result(this->rows, this->cols);
 
     for(size_t i = 0; i < this->rows; i++){
         for(size_t j = 0; j < this->cols; j++){
@@ -288,7 +290,7 @@ Matrix<T> Matrix<T>::subtract(Matrix matrix){
 
 template <typename T>
 Matrix<T> Matrix<T>::multiply(T value){
-    Matrix result(this->rows, this->cols, "zeros");
+    Matrix result(this->rows, this->cols);
 
     for(size_t i = 0; i < this->rows; i++){
         for(size_t j = 0; j < this->cols; j++){
@@ -304,7 +306,7 @@ Matrix<T> Matrix<T>::multiply(Matrix matrix){
     if(this->cols != matrix.rows)
         throw std::invalid_argument("First matrix column size must match second matrix row size");
 
-    Matrix result(this->rows, matrix.cols, "zeros");
+    Matrix result(this->rows, matrix.cols);
 
     for(size_t i = 0; i < this->rows; i++){
         for(size_t j = 0; j < matrix.cols; j++){
@@ -318,7 +320,7 @@ Matrix<T> Matrix<T>::multiply(Matrix matrix){
 
 template <typename T>
 Matrix<T> Matrix<T>::divide(T value){
-    Matrix result(this->rows, this->cols, "zeros");
+    Matrix result(this->rows, this->cols);
 
     for(size_t i = 0; i < this->rows; i++){
         for(size_t j = 0; j < this->cols; j++){
@@ -356,7 +358,7 @@ T Matrix<T>::sum(){
 
 template <typename T>
 Matrix<T> Matrix<T>::transpose(){
-    Matrix result(this->cols, this->rows, "zeros");
+    Matrix result(this->cols, this->rows);
 
     for(size_t i = 0; i < this->rows; i++){
         for(size_t j = 0; j < this->cols; j++){
@@ -369,7 +371,7 @@ Matrix<T> Matrix<T>::transpose(){
 
 template <typename T>
 Matrix<T> Matrix<T>::applyFunction(T function(T)){
-    Matrix result(this->rows, this->cols, "zeros");
+    Matrix result(this->rows, this->cols);
 
     for(size_t i = 0; i < this->rows; i++){
         for(size_t j = 0; j < this->cols; j++){
@@ -402,8 +404,9 @@ Matrix<T> Matrix<T>::insert(Matrix toAppend, size_t idx, bool row){
 
         size_t end = result.getValues()->size();
         size_t numInserted = 0;
+
         for(size_t i = 0; i < end; i += cols){
-            result.getValues()->insert(result.getValues()->begin() + i + numInserted + idx, (*toAppend.getValues()).at(i/cols));
+            result.getValues()->insert(result.getValues()->begin() + i + numInserted + idx, toAppend.getValues()->at(i/cols));
             numInserted++;
         }
 
@@ -468,13 +471,13 @@ T Matrix<T>::operator()(size_t row, size_t col){
 template <typename T>
 Matrix<T> Matrix<T>::operator()(size_t idx, bool row){
     if(row){
-        Matrix result(1, this->cols, "zeros");
+        Matrix result(1, this->cols);
         for(size_t j = 0; j < this->cols; j++){
             result.set((*this)(idx, j), 0, j);
         }
         return result;
     }else{
-        Matrix result(this->rows, 1, "zeros");
+        Matrix result(this->rows, 1);
         for(size_t i = 0; i < this->rows; i++){
             result.set((*this)(i, idx), i, 0);
         }

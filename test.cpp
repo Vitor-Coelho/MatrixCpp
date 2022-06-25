@@ -10,7 +10,7 @@ int main(){
     Matrix<float> matrix(3, 3, dist);
     Matrix<float> matrixColumn(3, 1, dist);
     Matrix<float> matrixRow(1, 3, dist);
-    Matrix<float> matrixResult;
+    Matrix<float> matrixResult(std::vector<float>({1, 1, 1}), (size_t) 1, (size_t) 3);
 
 
     cout << "\n*** Testing matrices ***\n";
@@ -73,15 +73,15 @@ int main(){
     matrixResult.print();
     matrixResult = matrixResult * 2;
     matrixResult.print();
-    cout << "Dot product: " << matrixResult.dotProduct(Matrix<float>(matrixResult.numRows(), matrixResult.numCols(), "ones")) << endl;
+    cout << "Dot product: " << matrixResult.dotProduct(Matrix<float>(matrixResult.numRows(), matrixResult.numCols(), (std::string) "ones")) << endl;
     cout << "Sum: " << matrixResult.sum() << endl;
-    matrix = Matrix<float>(matrix.numRows(), matrix.numCols(), "ones");
-    matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), "ones");
+    matrix = Matrix<float>(matrix.numRows(), matrix.numCols(), (std::string) "ones");
+    matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), (std::string) "ones");
     matrixResult = matrix * matrixResult;
     matrixResult.print();
 
     cout << "\n*** Testing applying function and transposing ***\n";
-    matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), "ones") * 2;
+    matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), (std::string) "ones") * 2;
     matrixResult = matrixResult.applyFunction([](float x){return 1/x;});
     matrixResult.print();
 
@@ -91,7 +91,7 @@ int main(){
     matrixResult.print();
 
     cout << "\n*** Testing inplace operations ***\n";
-    matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), "ones");
+    matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), (std::string) "ones");
     matrixResult.print();
     matrixResult += matrixResult;
     matrixResult.print();
@@ -99,8 +99,8 @@ int main(){
     matrixResult.print();
     matrixResult -= 2;
     matrixResult.print();
-    matrix = Matrix<float>(matrix.numRows(), matrix.numCols(), "ones");
-    matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), "ones");
+    matrix = Matrix<float>(matrix.numRows(), matrix.numCols(), (std::string) "ones");
+    matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), (std::string) "ones");
     matrixResult *= matrix;
     matrixResult.print();
 
