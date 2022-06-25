@@ -5,7 +5,7 @@ using namespace std;
 
 
 int main(){
-    std::normal_distribution<float> dist(-1, 1);
+    std::normal_distribution<float> dist(0, 1);
 
     Matrix<float> matrix(3, 3, dist);
     Matrix<float> matrixColumn(3, 1, dist);
@@ -103,6 +103,17 @@ int main(){
     matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), (std::string) "ones");
     matrixResult *= matrix;
     matrixResult.print();
+
+    cout << "\n*** Testing statistics operations ***\n";
+    matrix = Matrix<float>(1, 5, dist);
+    matrix.print();
+    
+    cout << "Max: " << matrix.max() << endl;
+    cout << "Min: " << matrix.min() << endl;
+    cout << "Mean: " << matrix.mean() << endl;
+    cout << "Median: " << matrix.median() << endl;
+    cout << "Max idx: " << matrix.maxIdx() << endl;
+    cout << "Min idx: " << matrix.minIdx() << endl;
 
     return 0;
 }

@@ -57,3 +57,12 @@ The library permits using most matrix operations. The ideia is to feed the code 
     - `matrixObj(size_t row, size_t col)` | Returns the value in (row, col)
     - `matrixObj(size_t idx, bool row)` | Returns a row-matrix or column-matrix of index  
     - `matrixObj(size_t startRow, size_t endRow, size_t startCol, size_t endCol);` | Returns a matrix (boundaries are inclusive)  
+
+12. Statistics
+    - `matrixObj.max()` | Returns the maximum value  
+    - `matrixObj.min()` | Returns the minimum value  
+    - `matrixObj.mean()` | Returns the mean value  
+    - `matrixObj.median()` | Returns the median value  
+    - `matrixObj.maxIdx()` | Returns the maximum value index  
+    - `matrixObj.minIdx()` | Returns the maximum value index
+  
