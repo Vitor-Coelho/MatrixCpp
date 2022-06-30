@@ -35,30 +35,34 @@ The library permits using most matrix operations. The ideia is to feed the code 
 5. Transposing  
     - `matrixObj.transpose()`  
 
-6. Dot product and sum
+6. Absolute value  
+    - `matrixObj.abs()` | Returns the matrix with the absolute value of each element  
+
+7. Dot product and sum
     - `matrixObj1.dotProduct(matrixObj2)`  
     - `matrixObj.sum()` | Returns the sum of all elements
 
-7. Applying functions  
-    - `matrixObj.applyFunction(float function(float))` | It applies the function to the matrix element-wise  
+8. Applying functions  
+    - `matrixObj.applyFunction(float function(float))` | It applies the function to the matrix element-wise and returns the new matrix  
+    - `matrixObj.applyFunction(Matrix function(Matrix), how=MATRIX_WISE);` | Applies the function matrix-wise, row-wise or column-wise and return the new matrix
 
-8. Inserting and appending  
+9. Inserting and appending  
     - `matrixObj1.insert(Matrix matrixObj2, size_t idx, bool row=true)` | Inserts another matrix row-wise or column-wise in idx  
     - `matrixObj1.append(Matrix matrixObj2, bool row)` | Appends another matrix row-wise or column-wise  
 
-9. Delete  
+10. Delete  
     - `matrixObj.del(size_t startIdx, size_t endIdx, bool row=true)` | Deletes rows or columns in indexes [startIdx, endIdx] (inclusive)  
 
-10. Definition and equality comparison  
+11. Definition and equality comparison  
     - `matrixObj1 = matrixObj2`  
     - `matrixObj1 == matrixObj2`  
 
-11. Accessing values  
+12. Accessing values  
     - `matrixObj(size_t row, size_t col)` | Returns the value in (row, col)
     - `matrixObj(size_t idx, bool row)` | Returns a row-matrix or column-matrix of index  
     - `matrixObj(size_t startRow, size_t endRow, size_t startCol, size_t endCol);` | Returns a matrix (boundaries are inclusive)  
 
-12. Statistics
+13. Statistics
     - `matrixObj.max()` | Returns the maximum value  
     - `matrixObj.min()` | Returns the minimum value  
     - `matrixObj.mean()` | Returns the mean value  

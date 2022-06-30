@@ -85,6 +85,14 @@ int main(){
     matrixResult = matrixResult.applyFunction([](float x){return 1/x;});
     matrixResult.print();
 
+    matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), dist).abs();
+    matrixResult = matrixResult.applyFunction([](Matrix<float> x){return x/x.sum();}, ROW_WISE);
+    matrixResult.print();
+
+    matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), dist).abs();
+    matrixResult = matrixResult.applyFunction([](Matrix<float> x){return x/x.sum();}, COLUMN_WISE);
+    matrixResult.print();
+
     matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), dist);
     matrixResult.print();
     matrixResult = matrixResult.transpose();

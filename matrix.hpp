@@ -14,6 +14,9 @@
 #define ROW true
 #define COLUMN false
 
+#define MATRIX_WISE 0
+#define ROW_WISE 1
+#define COLUMN_WISE 2
 
 
 /* Class definitions */
@@ -32,7 +35,7 @@ template <typename T> class Matrix{
         void print();
 
         void set(T value, size_t row, size_t col);
-        void set(std::vector<T> vec, size_t idx, bool row=true);
+        void set(Matrix<T> vec, size_t idx, bool row=true);
         void set(Matrix<T> matrix);
 
         bool equalTo(Matrix matrix);
@@ -54,8 +57,10 @@ template <typename T> class Matrix{
         T dotProduct(Matrix matrix);
         T sum();
         Matrix transpose();
+        Matrix abs();
 
         Matrix applyFunction(T function(T));
+        Matrix applyFunction(Matrix function(Matrix), int how=MATRIX_WISE);
         Matrix insert(Matrix toAppend, size_t idx, bool row=true);
         Matrix append(Matrix toAppend, bool row=true);
         Matrix del(size_t startIdx, size_t endIdx, bool row=true);
@@ -184,14 +189,20 @@ void Matrix<T>::set(T value, size_t row, size_t col){
 }
 
 template <typename T>
-void Matrix<T>::set(std::vector<T> vec, size_t idx, bool row){
+void Matrix<T>::set(Matrix<T> vec, size_t idx, bool row){
     if(row){
+        if(vec.numRows() != 1 || vec.numCols() != this->numCols())
+            throw std::invalid_argument("Matrix must be row-matrix with same number of columns");
+
         for(size_t j = 0; j < this->cols; j++){
-            this->set(vec.at(j), idx, j);
+            this->set(vec(0,j), idx, j);
         }
     }else{
+        if(vec.numCols() != 1 || vec.numRows() != this->numRows())
+            throw std::invalid_argument("Matrix must be column-matrix with same number of rows");
+
         for(size_t i = 0; i < this->rows; i++){
-            this->set(vec.at(i), i, idx);
+            this->set(vec(i, (size_t) 0), i, idx);
         }
     }  
 }
@@ -379,6 +390,11 @@ Matrix<T> Matrix<T>::transpose(){
 }
 
 template <typename T>
+Matrix<T> Matrix<T>::abs(){
+    return this->applyFunction([](T x){return x > 0 ? x : -x;});
+}
+
+template <typename T>
 Matrix<T> Matrix<T>::applyFunction(T function(T)){
     Matrix result(this->rows, this->cols);
 
@@ -387,6 +403,25 @@ Matrix<T> Matrix<T>::applyFunction(T function(T)){
             result.set(function((*this)(i,j)), i, j);
         }
     }
+    return result;
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::applyFunction(Matrix<T> function(Matrix<T>), int how){
+    Matrix result(this->rows, this->cols);
+
+    if(how == MATRIX_WISE){
+        result = function(*this);
+    }else if(how == ROW_WISE){
+        for(size_t i = 0; i < this->rows; i++){
+            result.set(function((*this)(i,ROW)), i, ROW);
+        }
+    }else if(how == COLUMN_WISE){
+        for(size_t j = 0; j < this->cols; j++){
+            result.set(function((*this)(j,COLUMN)), j, COLUMN);
+        }
+    }
+
     return result;
 }
 
