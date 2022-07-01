@@ -13,7 +13,7 @@ The library permits using most matrix operations. The ideia is to feed the code 
     - `Matrix(std::vector<T> vec, size_t numRows, size_t numCols)` | Create a matrix based in a vector  
 
 2. Addition and subtraction  
-    When adding or subtracting matrices, they must have the same format
+    When adding or subtracting matrices, they must have the same format (element-wise), same number of rows (column-wise) or same number of columns (row-wise)
     - `matrixObj1 + matrixObj2`  
     - `matrixObj1 - matrixObj2`
 
@@ -26,11 +26,13 @@ The library permits using most matrix operations. The ideia is to feed the code 
     - `matrixObj--`  
 
 3. Multiplication by another matrix or value  
-    - `matrixObj1 * matrixObj2` | Column size of first matrix must match row size of second matrix
+    - `matrixObj1 * matrixObj2` | Column size of first matrix must match row size of second matrix (matrix product)
     - `matrixObj  * value` | Multiplying by a value is applied element-wise
+    - `matrixObj1.multiply(matrixObj2)` | The matrices must have the same format (element-wise), same number of rows (column-wise) or same number of columns (row-wise)
 
 4. Dividing by value   
     - `matrixObj / value` | Dividing by a value is applied element-wise
+    - `matrixObj1.divide(matrixObj2)` | The matrices must have the same format (element-wise), same number of rows (column-wise) or same number of columns (row-wise)
 
 5. Transposing  
     - `matrixObj.transpose()`  

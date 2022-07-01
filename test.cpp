@@ -80,6 +80,30 @@ int main(){
     matrixResult = matrix * matrixResult;
     matrixResult.print();
 
+    cout << "Column-wise and row-wise addition and subtraction\n";
+    matrix = Matrix<float>(3, 3, dist);
+    matrix.print();
+    matrixResult = Matrix<float>(3, 1, (std::string) "ones")*2;
+    matrix = matrix.add(matrixResult);
+    matrix.print();
+    matrix = Matrix<float>(3, 3, dist);
+    matrix.print();
+    matrixResult = Matrix<float>(1, 3, (std::string) "ones")*2;
+    matrix = matrix.subtract(matrixResult);
+    matrix.print();
+
+    cout << "Column-wise and row-wise multiplication and division\n";
+    matrix = Matrix<float>(3, 3, dist);
+    matrix.print();
+    matrixResult = Matrix<float>(3, 1, (std::string) "ones")*2;
+    matrix = matrix.multiply(matrixResult);
+    matrix.print();
+    matrix = Matrix<float>(3, 3, dist);
+    matrix.print();
+    matrixResult = Matrix<float>(1, 3, (std::string) "ones")*2;
+    matrix = matrix.divide(matrixResult);
+    matrix.print();
+
     cout << "\n*** Testing applying function and transposing ***\n";
     matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), (std::string) "ones") * 2;
     matrixResult = matrixResult.applyFunction([](float x){return 1/x;});

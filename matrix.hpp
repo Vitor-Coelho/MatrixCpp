@@ -54,6 +54,9 @@ template <typename T> class Matrix{
         Matrix multiply(T value);
         Matrix multiply(Matrix matrix);
         Matrix divide(T value);
+        Matrix divide(Matrix matrix);
+
+        Matrix matrixProduct(Matrix matrix);
         T dotProduct(Matrix matrix);
         T sum();
         Matrix transpose();
@@ -268,44 +271,44 @@ Matrix<T> Matrix<T>::add(T value){
 
 template <typename T>
 Matrix<T> Matrix<T>::add(Matrix matrix){
-    if(this->rows != matrix.rows || this->cols != matrix.cols)
-        throw std::invalid_argument("Matrices must have the same format");
-
     Matrix result(this->rows, this->cols);
+    int how;
+
+    if(this->rows == matrix.rows && this->cols == matrix.cols)
+        how = MATRIX_WISE;
+    else if(this->cols == matrix.cols && matrix.rows == 1)
+        how = ROW_WISE;
+    else if(this->rows == matrix.rows && matrix.cols == 1)
+        how = COLUMN_WISE;
+    else
+        throw std::invalid_argument("Matrices format do not match");
+
+    T value;
 
     for(size_t i = 0; i < this->rows; i++){
         for(size_t j = 0; j < this->cols; j++){
-            result.set((*this)(i,j) + matrix(i,j), i, j);
+            if(how == MATRIX_WISE)
+                value = matrix(i,j);
+            else if(how == ROW_WISE)
+                value = matrix(0,j);
+            else    // COLUMN_WISE
+                value = matrix(i, (size_t) 0);
+
+            result.set((*this)(i,j) + value, i, j);
         }
     }
+
     return result;
 }
 
 template <typename T>
 Matrix<T> Matrix<T>::subtract(T value){
-    Matrix result(this->rows, this->cols);
-
-    for(size_t i = 0; i < this->rows; i++){
-        for(size_t j = 0; j < this->cols; j++){
-            result.set((*this)(i,j) - value, i, j);
-        }
-    }
-    return result;
+    return this->add(value*-1);
 }
 
 template <typename T>
 Matrix<T> Matrix<T>::subtract(Matrix matrix){
-    if(this->rows != matrix.rows || this->cols != matrix.cols)
-        throw std::invalid_argument("Matrices must have the same format");
-
-    Matrix result(this->rows, this->cols);
-
-    for(size_t i = 0; i < this->rows; i++){
-        for(size_t j = 0; j < this->cols; j++){
-            result.set((*this)(i,j) - matrix(i,j), i, j);
-        }
-    }
-    return result;
+    return this->add(matrix*-1);
 }
 
 template <typename T>
@@ -323,6 +326,48 @@ Matrix<T> Matrix<T>::multiply(T value){
 
 template <typename T>
 Matrix<T> Matrix<T>::multiply(Matrix matrix){
+    Matrix result(this->rows, this->cols);
+    int how;
+
+    if(this->rows == matrix.rows && this->cols == matrix.cols)
+        how = MATRIX_WISE;
+    else if(this->cols == matrix.cols && matrix.rows == 1)
+        how = ROW_WISE;
+    else if(this->rows == matrix.rows && matrix.cols == 1)
+        how = COLUMN_WISE;
+    else
+        throw std::invalid_argument("Matrices format do not match");
+
+    T value;
+
+    for(size_t i = 0; i < this->rows; i++){
+        for(size_t j = 0; j < this->cols; j++){
+            if(how == MATRIX_WISE)
+                value = matrix(i,j);
+            else if(how == ROW_WISE)
+                value = matrix(0,j);
+            else    // COLUMN_WISE
+                value = matrix(i, (size_t) 0);
+
+            result.set((*this)(i,j) * value, i, j);
+        }
+    }
+
+    return result;
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::divide(T value){
+    return this->multiply(1/value);
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::divide(Matrix matrix){
+    return this->multiply(matrix.applyFunction([](T x){return 1/x;}));
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::matrixProduct(Matrix matrix){
     if(this->cols != matrix.rows)
         throw std::invalid_argument("First matrix column size must match second matrix row size");
 
@@ -335,18 +380,6 @@ Matrix<T> Matrix<T>::multiply(Matrix matrix){
         }
     }
 
-    return result;
-}
-
-template <typename T>
-Matrix<T> Matrix<T>::divide(T value){
-    Matrix result(this->rows, this->cols);
-
-    for(size_t i = 0; i < this->rows; i++){
-        for(size_t j = 0; j < this->cols; j++){
-            result.set((*this)(i, j)/value, i, j);
-        }
-    }
     return result;
 }
 
@@ -640,7 +673,7 @@ template <typename T>
 Matrix<T> Matrix<T>::operator-(T value)  {return this->subtract(value);}
 
 template <typename T>
-Matrix<T> Matrix<T>::operator*(Matrix matrix){return this->multiply(matrix);}
+Matrix<T> Matrix<T>::operator*(Matrix matrix){return this->matrixProduct(matrix);}
 
 template <typename T>
 Matrix<T> Matrix<T>::operator*(T value)  {return this->multiply(value);}
@@ -667,7 +700,7 @@ template <typename T>
 void Matrix<T>::operator-=(T value)  {(*this) = this->subtract(value);}
 
 template <typename T>
-void Matrix<T>::operator*=(Matrix<T> matrix){(*this) = this->multiply(matrix);}
+void Matrix<T>::operator*=(Matrix<T> matrix){(*this) = this->matrixProduct(matrix);}
 
 template <typename T>
 void Matrix<T>::operator*=(T value)  {(*this) = this->multiply(value);}
