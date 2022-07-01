@@ -43,6 +43,7 @@ The library permits using most matrix operations. The ideia is to feed the code 
 7. Dot product and sum
     - `matrixObj1.dotProduct(matrixObj2)`  
     - `matrixObj.sum()` | Returns the sum of all elements
+    - `matrixObj.sum(how)` | Returns the sum of the elements row-wise or column-wise
 
 8. Applying functions  
     - `matrixObj.applyFunction(float function(float))` | It applies the function to the matrix element-wise and returns the new matrix  

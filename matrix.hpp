@@ -59,6 +59,7 @@ template <typename T> class Matrix{
         Matrix matrixProduct(Matrix matrix);
         T dotProduct(Matrix matrix);
         T sum();
+        Matrix<T> sum(int how);
         Matrix transpose();
         Matrix abs();
 
@@ -407,6 +408,37 @@ T Matrix<T>::sum(){
         }
     }
     return sum;
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::sum(int how){
+    if(how == ROW_WISE){
+        Matrix result(this->numRows(), 1);
+        T sum;
+
+        for(size_t i = 0; i < rows; i++){
+            sum = 0;
+            for(size_t j = 0; j < cols; j++)
+                sum += (*this)(i,j);
+            result.set(sum, i, 0);
+        }
+
+        return result;
+    }else if(how == COLUMN_WISE){
+        Matrix result(1, this->numCols());
+        T sum;
+
+        for(size_t j = 0; j < cols; j++){
+            sum = 0;
+            for(size_t i = 0; i < rows; i++)
+                sum += (*this)(i,j);
+            result.set(sum, 0, j);
+        }
+
+        return result;
+    }else{
+        throw std::invalid_argument("Invalid argument how");
+    }
 }
 
 template <typename T>

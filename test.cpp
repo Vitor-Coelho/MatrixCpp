@@ -75,6 +75,10 @@ int main(){
     matrixResult.print();
     cout << "Dot product: " << matrixResult.dotProduct(Matrix<float>(matrixResult.numRows(), matrixResult.numCols(), (std::string) "ones")) << endl;
     cout << "Sum: " << matrixResult.sum() << endl;
+    cout << "Sum row-wise: ";
+    matrixResult.sum(ROW_WISE).print();
+    cout << "Sum column-wise: ";
+    matrixResult.sum(COLUMN_WISE).print();
     matrix = Matrix<float>(matrix.numRows(), matrix.numCols(), (std::string) "ones");
     matrixResult = Matrix<float>(matrix.numRows(), matrix.numCols(), (std::string) "ones");
     matrixResult = matrix * matrixResult;
