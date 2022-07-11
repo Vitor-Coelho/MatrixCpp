@@ -151,5 +151,17 @@ int main(){
     cout << "Max idx: " << matrix.maxIdx() << endl;
     cout << "Min idx: " << matrix.minIdx() << endl;
 
+    cout << "\n*** Convolution test ***\n";
+    matrix = Matrix<float>(10, 10, dist);
+    matrix.print();
+    Matrix<float> filter = Matrix<float>(3, 3, dist);
+    filter.print();
+
+    matrix = matrix.filter(filter, 1, true);
+    matrix.print();
+
+    matrix = matrix.filter(filter, 2, true);
+    matrix.print();
+
     return 0;
 }
