@@ -1,5 +1,6 @@
 #include <iostream>
 #include "matrix.hpp"
+#include "tensor3d.hpp"
 
 using namespace std;
 
@@ -162,6 +163,29 @@ int main(){
 
     matrix = matrix.filter(filter, 2, true);
     matrix.print();
+
+
+
+    cout << "\n*** Testing 3D tensors ***\n";
+    Tensor3D<float> tensor1, tensor2(3, 3, 3), tensor3(3, 3, 3, dist), image(9, 9, 3, dist);
+    Matrix<float> kernel(3, 3);
+
+    // tensor1.print();
+    // tensor2.print();
+    // tensor3.print();
+    
+    // tensor3.set(kernel, 1);
+    // tensor3.print();
+
+    // image = image.filter(tensor3, 1, true);
+    // image.print();
+    // image = image.applyFunction([](float x){return x + 1;});
+    // image.print();
+
+    tensor2.print();
+    tensor2 = tensor2.append(kernel);
+    tensor2.print();
+
 
     return 0;
 }
