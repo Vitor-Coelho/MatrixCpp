@@ -173,8 +173,13 @@ int main(){
     // tensor1.print();
     // tensor2.print();
     // tensor3.print();
-    
+
+    // tensor3.print();    
     // tensor3.set(kernel, 1);
+    // tensor3.print();
+    // tensor3.set(5, 2, 2, 2);
+    // tensor3.print();
+    // tensor3.set(tensor2);
     // tensor3.print();
 
     // image = image.filter(tensor3, 1, true);
@@ -182,10 +187,29 @@ int main(){
     // image = image.applyFunction([](float x){return x + 1;});
     // image.print();
 
-    tensor2.print();
-    tensor2 = tensor2.append(kernel);
-    tensor2.print();
+    // tensor3.print();
+    // tensor3 = tensor3.append(kernel);
+    // tensor3.print();
+    // tensor3 = tensor3.del(3, 3);
+    // tensor3.print();
+    // tensor3 = tensor3.insert(kernel, 3);
+    // tensor3.print();
 
+    //tensor3.print();
+    //tensor3(0, 1).print();
+    //cout << tensor3(0, 1, 2);
+    //cout << (tensor3 == tensor3);
+
+    // tensor2.print();
+    // tensor3.print();
+
+    // tensor2.add(1).print();
+    // tensor2.add(tensor3).print();
+    // tensor2.subtract(1).print();
+    // tensor2.subtract(tensor3).print();
+    // tensor2 = Tensor3D<float>(3, 3, 3, (std::string) "ones")*2;
+    // tensor2.multiply(2).print();
+    // tensor2.multiply(tensor3).print();
 
     return 0;
 }
