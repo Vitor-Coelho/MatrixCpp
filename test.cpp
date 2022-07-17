@@ -184,7 +184,7 @@ int main(){
 
     // image = image.filter(tensor3, 1, true);
     // image.print();
-    // image = image.applyFunction([](float x){return x + 1;});
+    // image = image.applyFunction([](Matrix<float> x){return x + 1;});
     // image.print();
 
     // tensor3.print();
@@ -195,10 +195,10 @@ int main(){
     // tensor3 = tensor3.insert(kernel, 3);
     // tensor3.print();
 
-    //tensor3.print();
-    //tensor3(0, 1).print();
-    //cout << tensor3(0, 1, 2);
-    //cout << (tensor3 == tensor3);
+    // tensor3.print();
+    // tensor3(0, 1).print();
+    // cout << tensor3(0, 1, 2);
+    // cout << (tensor3 == tensor3);
 
     // tensor2.print();
     // tensor3.print();
